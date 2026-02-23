@@ -2,7 +2,28 @@
 
 This Markdown file provides a concise overview of each directory in the LangChain course, detailing the key focus and content of each.
 
-## Directories
+## 🚀 Quick Start - Using FREE Google Gemini API (Recommended)
+
+> **No paid API required!** Switch from OpenAI to Google's free Gemini API in 5 minutes.
+
+### Fast Setup:
+1. Get FREE API key: https://ai.google.dev/ (no credit card needed)
+2. Copy key to `.env` file: `GOOGLE_API_KEY=your_key_here`
+3. Auto-convert course code: `python convert_to_gemini.py --all`
+4. Verify setup: `python migration_test.py`
+5. Start learning! 🎓
+
+**See [GEMINI_SETUP_GUIDE.md](GEMINI_SETUP_GUIDE.md) for complete instructions**
+
+---
+
+## OR Use OpenAI API (Requires Paid Account)
+
+If you prefer to use OpenAI:
+- Add your OpenAI API key to `.env`: `OPENAI_API_KEY=sk-...`
+- Keep all course code as-is
+
+---
 
 - `01_OpenAI_API`
 
@@ -70,3 +91,14 @@ Please rename the `.env.example` to `.env` and provide your OpenAI API Key.
 Linux: `find . -name "*.ipynb" -exec jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace {} \;`
 
 Windows: `for /r %i in (*.ipynb) do jupyter nbconvert --to notebook --ClearOutputPreprocessor.enabled=True --inplace "%i"`
+
+---
+
+## 📚 Migration Guides & Resources
+
+- **[GEMINI_SETUP_GUIDE.md](GEMINI_SETUP_GUIDE.md)** - Complete guide to use free Google Gemini API (Recommended)
+- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Code migration cheat sheet
+- **[GEMINI_MIGRATION_GUIDE.md](GEMINI_MIGRATION_GUIDE.md)** - Detailed API differences
+- **[convert_to_gemini.py](convert_to_gemini.py)** - Auto-convert script for all course code
+- **[migration_test.py](migration_test.py)** - Test script to verify setup
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Project overview and structure

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 
 # from langchain_classic.chains import RetrievalQA
 from langchain_core.prompts import PromptTemplate
@@ -12,7 +12,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-embeddings = OpenAIEmbeddings()
+embeddings = GoogleGenerativeAIEmbeddings()
 app = FastAPI()
 
 # Updated template with examples, context, and a non-related example
@@ -46,7 +46,7 @@ text: {input}
 PROMPT = PromptTemplate(template=template, input_variables=["context", "input"])
 
 # chain_type_kwargs = {"prompt": PROMPT}
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 vectorstore = FAISS.load_local("index", embeddings)
 retriever = vectorstore.as_retriever()

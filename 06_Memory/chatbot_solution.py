@@ -4,7 +4,7 @@ import streamlit as st
 from streamlit_chat import message
 from dotenv import load_dotenv, find_dotenv
 from langchain_classic.chains.llm import LLMChain
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_community.chat_message_histories.streamlit import (
@@ -31,7 +31,7 @@ memory = ConversationBufferMemory(memory_key="history", chat_memory=msgs)
 
 
 def load_chain():
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
     llm_chain = LLMChain(llm=llm, prompt=prompt, memory=memory)
     return llm_chain
 

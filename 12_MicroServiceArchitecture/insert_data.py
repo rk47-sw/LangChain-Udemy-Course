@@ -1,12 +1,12 @@
 from dotenv import find_dotenv, load_dotenv
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_postgres import PGVector
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 
 load_dotenv(find_dotenv())
 
-embeddings = OpenAIEmbeddings()
+embeddings = GoogleGenerativeAIEmbeddings()
 loader = DirectoryLoader(
     "./FAQ", glob="**/*.txt", loader_cls=TextLoader, show_progress=True
 )

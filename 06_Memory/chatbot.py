@@ -4,7 +4,7 @@ import streamlit as st
 from streamlit_chat import message
 from dotenv import load_dotenv, find_dotenv
 from langchain_classic.chains.llm import LLMChain
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_community.chat_message_histories.streamlit import (

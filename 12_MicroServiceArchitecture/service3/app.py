@@ -3,12 +3,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import os
 from fastapi.middleware.cors import CORSMiddleware
-import openai
+import google.generativeai as genai
 from langchain_core.prompts import PromptTemplate
 import logging
 from dotenv import find_dotenv, load_dotenv
 from langchain_postgres import PGVector
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import (
     PromptTemplate,
@@ -19,7 +19,7 @@ ROLE_CLASS_MAP = {"assistant": AIMessage, "user": HumanMessage, "system": System
 
 load_dotenv(find_dotenv())
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.google_api_key=os.getenv("GOOGLE_API_KEY")
 
 db_user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASSWORD")
@@ -44,8 +44,8 @@ class Conversation(BaseModel):
     conversation: List[Message]
 
 
-embeddings = OpenAIEmbeddings()
-chat = ChatOpenAI(temperature=0)
+embeddings = GoogleGenerativeAIEmbeddings()
+chat = ChatGoogleGenerativeAI(temperature=0)
 store = PGVector(
     collection_name=db_name,
     connection=CONNECTION_STRING,
