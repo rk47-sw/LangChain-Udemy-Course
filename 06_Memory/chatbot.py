@@ -3,35 +3,41 @@
 import streamlit as st
 from streamlit_chat import message
 from dotenv import load_dotenv, find_dotenv
-from langchain_classic.chains.llm import LLMChain
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import PromptTemplate
-from langchain_classic.memory import ConversationBufferMemory
-from langchain_community.chat_message_histories.streamlit import (
-    StreamlitChatMessageHistory,
-)
-from langchain_classic.globals import get_verbose
-
-get_verbose()
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_community.chat_message_histories.streamlit import StreamlitChatMessageHistory
 
 load_dotenv(find_dotenv())
 
-template = """You are an AI chatbot having a conversation with a human.
+# Create a prompt template that includes message history
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are an AI chatbot having a conversation with a human."),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}")
+])
 
-{history}
-Human: {human_input}
-AI: """
-
-# TODO: Add prompt
-
+# Create Streamlit chat message history
 msgs = StreamlitChatMessageHistory(key="special_app_key")
-
-# TODO: Add Memory
 
 
 def load_chain():
-    # Add an LLMChain with memory and a prompt
-    return llm_chain
+    # Initialize the LLM with model parameter
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+    
+    # Create the base chain using LCEL
+    chain = prompt | llm | StrOutputParser()
+    
+    # Wrap the chain with message history
+    conversation = RunnableWithMessageHistory(
+        chain,
+        lambda session_id: msgs,
+        input_messages_key="input",
+        history_messages_key="history"
+    )
+    
+    return conversation
 
 
 def initialize_session_state():
@@ -65,7 +71,11 @@ def submit():
 st.text_input("You:", key="widget_input", on_change=submit)
 
 if st.session_state.user_input:
-    output = st.session_state.chain.run(st.session_state.user_input)
+    # Use invoke instead of run (modern LCEL approach)
+    output = st.session_state.chain.invoke(
+        {"input": st.session_state.user_input},
+        config={"configurable": {"session_id": "streamlit_session"}}
+    )
     st.session_state.past.append(st.session_state.user_input)
     st.session_state.generated.append(output)
 
