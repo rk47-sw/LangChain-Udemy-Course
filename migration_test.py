@@ -73,7 +73,7 @@ def test_langchain_prompt_chain():
     
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
-        from langchain.prompts import ChatPromptTemplate
+        from langchain_core.prompts import ChatPromptTemplate
         
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
@@ -144,7 +144,15 @@ chain = LLMChain(llm=llm, prompt=prompt)
 
 # AFTER (Gemini):
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.chains import LLMChain
+from langchain_core.prompts import ChatPromptTemplate
+
+# Option 1: Use LCEL (recommended)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+prompt = ChatPromptTemplate.from_messages([("system", "You are helpful."), ("user", "{question}")])
+chain = prompt | llm
+
+# Option 2: Use langchain_classic chains
+from langchain_classic.chains import LLMChain
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 chain = LLMChain(llm=llm, prompt=prompt)
         '''

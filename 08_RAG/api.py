@@ -12,7 +12,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-embeddings = GoogleGenerativeAIEmbeddings()
+embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 app = FastAPI()
 
 # Updated template with examples, context, and a non-related example

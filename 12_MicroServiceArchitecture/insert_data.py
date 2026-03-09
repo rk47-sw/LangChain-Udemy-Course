@@ -6,7 +6,7 @@ from langchain_community.document_loaders import DirectoryLoader, TextLoader
 
 load_dotenv(find_dotenv())
 
-embeddings = GoogleGenerativeAIEmbeddings()
+embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 loader = DirectoryLoader(
     "./FAQ", glob="**/*.txt", loader_cls=TextLoader, show_progress=True
 )

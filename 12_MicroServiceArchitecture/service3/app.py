@@ -44,7 +44,7 @@ class Conversation(BaseModel):
     conversation: List[Message]
 
 
-embeddings = GoogleGenerativeAIEmbeddings()
+embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 chat = ChatGoogleGenerativeAI(temperature=0)
 store = PGVector(
     collection_name=db_name,
